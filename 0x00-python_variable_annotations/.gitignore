@@ -1,0 +1,6 @@
+*main.py
+
+# Other examples
+*.log
+*.pyc     
+__pycache__/  
