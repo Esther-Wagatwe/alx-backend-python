@@ -10,23 +10,20 @@ from parameterized import parameterized
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test cases for the GithubOrgClient class."""
-    @parameterized.expand([
-        ("google", {"org": "google", "data": "example_data_google"}),
-        ("abc", {"org": "abc", "data": "example_data_abc"}),
-    ])
-    @patch('client.get_json',)
-    def test_org(self, org_name, expected_data, mock_json):
-        """Test that GithubOrgClient.org returns the expected value."""
-        mock_json.return_value = MagicMock(return_value=expected_data)
-
-        client = GithubOrgClient(org_name)
-
-        result = client.org()
-
-        mock_json.assert_called_once_with(
-            f'https://api.github.com/orgs/{org_name}')
-
-        self.assertEqual(result, expected_data)
+    @parameterized.expand(["google", "abc"])
+    @patch('client.get_json')
+    def test_org(self, org: str, getJson: MagicMock) -> None:
+        """
+        Tests the org property of GithubOrgClient class
+        Args:
+            org (str): organization
+            getJson (MagicMock): a MagicMock object of `get_json` funtion
+        Returns:
+            None
+        """
+        gitClient = GithubOrgClient(org)
+        self.assertEqual(gitClient.org, getJson.return_value)
+        getJson.assert_called_once_with(gitClient.ORG_URL.format(org=org))
 
 
 if __name__ == '__main__':
