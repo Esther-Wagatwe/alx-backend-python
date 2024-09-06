@@ -28,7 +28,3 @@ class TestGithubOrgClient(unittest.TestCase):
             f'https://api.github.com/orgs/{org_name}')
 
         self.assertEqual(result, expected_data)
-
-
-if __name__ == '__main__':
-    unittest.main()
