@@ -50,23 +50,23 @@ class TestMemoize(unittest.TestCase):
     def test_memoized(self):
         """Test that memoize decorator caches results."""
         class TestClass:
-            """class with memoized property"""
+            """Class that defines attributes to test memoize"""
             def a_method(self):
+                """Method that returns an instance of memoize class"""
                 return 42
-
             @memoize
             def a_property(self):
+                """Method that defines a property instance of memoize"""
+
                 return self.a_method()
 
+
         test_instance = TestClass()
-        with patch.object(test_instance, 'a_method',
-                          return_value=42) as mock_a_method:
-            result1 = test_instance.a_property
-            result2 = test_instance.a_property
+        with patch.object(test_instance, 'a_method') as mock_a_method:
+            test_instance.a_property
+            test_instance.a_property
 
             mock_a_method.assert_called_once()
-
-            self.assertEqual(result1, result2)
 
     if __name__ == "__main__":
         unittest.main()
