@@ -83,6 +83,7 @@ class TestGithubOrgClient(unittest.TestCase):
         result = client.has_license(repo, license_key)
         self.assertEqual(exp_result, result)
 
+
 @parameterized_class([
     {
         'org_payload': TEST_PAYLOAD[0][0],
@@ -102,7 +103,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """
         cls.get_patcher = patch('requests.get')
         cls.mock_get = cls.get_patcher.start()
-        
+
         def side_effect(url):
             if url.endswith('/orgs/google'):
                 return MagicMock(json=lambda: cls.org_payload)
@@ -138,16 +139,18 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_with_license(self):
         """
-        Test GithubOrgClient.public_repos method with license filter for integration.
+        Test GithubOrgClient.public_repos method with license
+        filter for integration.
         """
         client = GithubOrgClient("google")
-        
+
         repos = client.public_repos(license="apache-2.0")
-        
+
         self.assertEqual(repos, self.apache2_repos)
         self.mock_get.assert_called_once_with(
             'https://api.github.com/orgs/google/repos?license=apache-2.0'
         )
+
 
 if __name__ == '__main__':
     unittest.main()
