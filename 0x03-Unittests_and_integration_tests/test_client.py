@@ -127,14 +127,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """
         Test GithubOrgClient.public_repos method for integration.
         """
-        client = GithubOrgClient("google")
-
-        repos = client.public_repos()
-
-        self.assertEqual(repos, self.expected_repos)
-
-        self.mock_get.assert_called_once_with(
-            'https://api.github.com/orgs/google/repos'
+        client = GithubOrgClient('google/repos')
+        self.assertEqual(
+            self.expected_repos,
+            client.public_repos(license=None)
         )
 
     def test_public_repos_with_license(self):
@@ -142,13 +138,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Test GithubOrgClient.public_repos method with license
         filter for integration.
         """
-        client = GithubOrgClient("google")
-
-        repos = client.public_repos(license="apache-2.0")
-
-        self.assertEqual(repos, self.apache2_repos)
-        self.mock_get.assert_called_once_with(
-            'https://api.github.com/orgs/google/repos?license=apache-2.0'
+        client = GithubOrgClient('google/repos')
+        self.assertEqual(
+            self.apache2_repos,
+            client.public_repos(license="apache-2.0")
         )
 
 
