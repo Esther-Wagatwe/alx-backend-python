@@ -4,6 +4,7 @@ import unittest
 from utils import access_nested_map
 from parameterized import parameterized
 
+
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
     @parameterized.expand([
