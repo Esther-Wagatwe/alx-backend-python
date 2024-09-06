@@ -15,16 +15,26 @@ class TestGithubOrgClient(unittest.TestCase):
     """
     Test cases for the GithubOrgClient class.
     """
-    @parameterized.expand(["google", "abc"])
-    @patch('client.get_json')
-    def test_org(self, org: str, get_Json: MagicMock) -> None:
+    @parameterized.expand([
+        ("google", {'login': "google"}),
+        ("abc", {'login': "abc"}),
+    ])
+    @patch('client.get_json',)
+    def test_org(self, org_name, expected_data, mock_json):
         """
-        Tests the org property of GithubOrgClient class
+        Test that GithubOrgClient.org returns the expected value.
+        """
+        mock_json.return_value = MagicMock(return_value=expected_data)
 
-        """
-        gitClient = GithubOrgClient(org)
-        self.assertEqual(gitClient.org, get_Json.return_value)
-        get_Json.assert_called_once_with(gitClient.ORG_URL.format(org=org))
+        client = GithubOrgClient(org_name)
+
+        result = client.org()
+
+        mock_json.assert_called_once_with(
+            f'https://api.github.com/orgs/{org_name}'
+            )
+
+        self.assertEqual(result, expected_data)
 
     def test_public_repos_url(self):
         """
@@ -124,6 +134,19 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         self.mock_get.assert_called_once_with(
             'https://api.github.com/orgs/google/repos'
+        )
+
+    def test_public_repos_with_license(self):
+        """
+        Test GithubOrgClient.public_repos method with license filter for integration.
+        """
+        client = GithubOrgClient("google")
+        
+        repos = client.public_repos(license="apache-2.0")
+        
+        self.assertEqual(repos, self.apache2_repos)
+        self.mock_get.assert_called_once_with(
+            'https://api.github.com/orgs/google/repos?license=apache-2.0'
         )
 
 if __name__ == '__main__':
