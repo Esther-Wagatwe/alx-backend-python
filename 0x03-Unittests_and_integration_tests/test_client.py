@@ -11,8 +11,8 @@ from parameterized import parameterized
 class TestGithubOrgClient(unittest.TestCase):
     """Test cases for the GithubOrgClient class."""
     @parameterized.expand([
-        ("google", {'login': "google"}),
-        ("abc", {'login': "abc"}),
+        ("google", {"org": "google", "data": "example_data_google"}),
+        ("abc", {"org": "abc", "data": "example_data_abc"}),
     ])
     @patch('client.get_json',)
     def test_org(self, org_name, expected_data, mock_json):
