@@ -54,7 +54,7 @@ class TestGithubOrgClient(unittest.TestCase):
                              )
             mock_org.assert_called_once()
 
-    @patch('client.get_json', return_value=[{"name": "Test value"}])
+    @patch("client.get_json", return_value=[{"name": "Test value"}])
     def test_public_repos(self, mock_get_json):
         """
         Test GithubOrgClient.public_repos returns the expected list of repos.
