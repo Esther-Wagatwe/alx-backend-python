@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Module to test the client module"""
 import unittest
 from typing import Dict
@@ -11,8 +11,8 @@ from parameterized import parameterized
 class TestGithubOrgClient(unittest.TestCase):
     """Test cases for the GithubOrgClient class."""
     @parameterized.expand([
-        ("google", {"org": "google", "data": "example_data_google"}),
-        ("abc", {"org": "abc", "data": "example_data_abc"}),
+        ("google", {'login': "google"}),
+        ("abc", {'login': "abc"}),
     ])
     @patch('client.get_json',)
     def test_org(self, org_name, expected_data, mock_json):
