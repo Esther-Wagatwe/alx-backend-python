@@ -64,10 +64,10 @@ class TestGithubOrgClient(unittest.TestCase):
                           return_value="https://api.github.com/"
                           ) as pub:
             client = GithubOrgClient("Test value")
-            res = client.public_repos()
+            result = client.public_repos()
 
-            self.assertEqual(res, ["Test value"])
-            mock_get_json.assert_called_once
+            self.assertEqual(result, ["Test value"])
+            mock_get_json.assert_called_once()
             pub.assert_called_once()
 
     @parameterized.expand([
@@ -77,8 +77,8 @@ class TestGithubOrgClient(unittest.TestCase):
         """Method to test GithubOrgClient.has_license function"""
 
         client = GithubOrgClient("Test value")
-        res = client.has_license(repo, license_key)
-        self.assertEqual(exp_result, res)
+        result = client.has_license(repo, license_key)
+        self.assertEqual(exp_result, result)
 
 
 if __name__ == '__main__':
