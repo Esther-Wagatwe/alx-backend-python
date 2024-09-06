@@ -103,7 +103,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """
         cls.get_patcher = patch('requests.get')
         cls.mock_get = cls.get_patcher.start()
-
+        
         def side_effect(url):
             if url.endswith('/orgs/google'):
                 return MagicMock(json=lambda: cls.org_payload)
@@ -128,24 +128,21 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Test GithubOrgClient.public_repos method for integration.
         """
         client = GithubOrgClient("google")
-
         repos = client.public_repos()
-
         self.assertEqual(repos, self.expected_repos)
-
         self.mock_get.assert_called_once_with(
             'https://api.github.com/orgs/google/repos'
         )
 
     def test_public_repos_with_license(self):
         """
-        Test GithubOrgClient.public_repos method with license
-        filter for integration.
+        Test GithubOrgClient.public_repos method with license filter for integration.
         """
         client = GithubOrgClient("google")
-
+        
+        # Fetch repos with a specific license
         repos = client.public_repos(license="apache-2.0")
-
+        
         self.assertEqual(repos, self.apache2_repos)
         self.mock_get.assert_called_once_with(
             'https://api.github.com/orgs/google/repos?license=apache-2.0'
