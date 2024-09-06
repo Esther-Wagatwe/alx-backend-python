@@ -74,13 +74,13 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
-    def test_has_license(self, repo, license_key, expected_result):
+    def test_has_license(self, license, key, expected_result):
         """
         Unit-test for GithubOrgClient.has_license.
         """
-        client = GithubOrgClient("TestOrg")
-        result = client.has_license(repo, license_key)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(
+            GithubOrgClient.has_license(license, key), expected_result
+        )
 
 
 if __name__ == '__main__':
