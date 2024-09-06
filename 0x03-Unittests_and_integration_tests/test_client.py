@@ -68,7 +68,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
             self.assertEqual(res, ["Test value"])
             mock_get_json.assert_called_once
-            pub.assert_called_once
+            pub.assert_called_once()
 
 
 if __name__ == '__main__':
